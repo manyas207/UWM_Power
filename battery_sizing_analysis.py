@@ -240,6 +240,16 @@ for config in battery_configs:
 results_df = pd.DataFrame(results)
 results_df = results_df.drop(columns=['df'])  # Remove dataframe column for display
 
+# Round numbers for cleaner output
+results_df["Peak_Grid_kW"] = results_df["Peak_Grid_kW"].round(1)
+results_df["Peak_Reduction_kW"] = results_df["Peak_Reduction_kW"].round(1)
+results_df["Peak_Reduction_%"] = results_df["Peak_Reduction_%"].round(2)
+results_df["Annual_Grid_kWh"] = results_df["Annual_Grid_kWh"].round(0).astype(int)
+results_df["Energy_Reduction_kWh"] = results_df["Energy_Reduction_kWh"].round(0).astype(int)
+results_df["Energy_Reduction_%"] = results_df["Energy_Reduction_%"].round(2)
+results_df["Battery_Throughput_kWh"] = results_df["Battery_Throughput_kWh"].round(0).astype(int)
+results_df["PV_Curtailed_kWh"] = results_df["PV_Curtailed_kWh"].round(0).astype(int)
+
 print("\n" + "="*60)
 print("BATTERY SIZING SUMMARY")
 print("="*60)
@@ -393,26 +403,34 @@ plt.savefig(os.path.join(BATTERY_PLOTS_DIR, "battery_operation_detail.png"), dpi
 print("Saved: battery_operation_detail.png")
 plt.close()
 
-# Plot 4: Load duration curves
+# Plot 4: Load duration curves (all configurations)
 fig, ax = plt.subplots(figsize=(10, 6))
 
-# Sort by descending order for load duration curve
+hours = np.arange(1, len(df) + 1)
+batt_results = [r for r in results if r["E_cap_kWh"] > 0]
+n_lines = 2 + len(batt_results)
+colors = plt.cm.tab10(np.linspace(0, 1, n_lines))
+
+# Baseline (No PV, No Battery)
 baseline_sorted = np.sort(df["Load (kW)"].values)[::-1]
+ax.plot(hours, baseline_sorted, label="Baseline (No PV, No Battery)",
+        linewidth=2, alpha=0.8, color=colors[0])
+
+# PV only (no battery)
 pv_only_sorted = np.sort(df["GridImport_no_batt_kW"].values)[::-1]
-batt_sorted = np.sort(best_df["GridImport_with_batt_kW"].values)[::-1]
+ax.plot(hours, pv_only_sorted, label="PV Only",
+        linewidth=2, alpha=0.8, color=colors[1])
 
-hours = np.arange(1, len(baseline_sorted) + 1)
-
-ax.plot(hours, baseline_sorted, label="Baseline (No PV, No Battery)", 
-        linewidth=2, alpha=0.7)
-ax.plot(hours, pv_only_sorted, label="PV Only", linewidth=2, alpha=0.7)
-ax.plot(hours, batt_sorted, label=f"PV + Battery ({best_config['Config']})", 
-        linewidth=2, alpha=0.7)
+# Each battery configuration
+for i, r in enumerate(batt_results):
+    r_sorted = np.sort(r["df"]["GridImport_with_batt_kW"].values)[::-1]
+    ax.plot(hours, r_sorted, label=f"PV + {r['Config']}",
+            linewidth=2, alpha=0.8, color=colors[2 + i])
 
 ax.set_xlabel("Hours per Year")
 ax.set_ylabel("Power (kW)")
 ax.set_title("Load Duration Curves")
-ax.legend()
+ax.legend(loc="upper right", fontsize=8)
 ax.grid(True, alpha=0.3)
 ax.set_xlim(0, 1000)  # Focus on top 1000 hours
 
