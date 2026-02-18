@@ -1,0 +1,49 @@
+# Battery Design for UW Madison Challenge
+
+This folder contains a step-by-step methodology and scripts to size a battery energy storage system that meets the challenge requirements.
+
+## Requirements (from challenge)
+
+1. **Peak load reduction:** 25% reduction in campus peak demand (July peak)
+2. **Resiliency:** Critical buildings (dorms + Carson Gulley + DeJope) for 3 days at 25% of average daily load
+3. **Solar excess absorption:** Bakke (187 kW max excess) + Vet (325 kW max excess) exceed grid limits
+
+## Files
+
+| File | Purpose |
+|------|---------|
+| `METHODOLOGY.md` | Detailed step-by-step explanation |
+| `step1_peak_shaving.py` | Campus peak load → 25% reduction target |
+| `step2_resiliency.py` | Critical buildings → 3-day energy need |
+| `step3_solar_excess.py` | Bakke + Vet excess → charge power & energy |
+| `step4_combined_sizing.py` | Combine requirements → recommended config |
+| `run_all.py` | Run all steps |
+| `outputs/` | CSV results from each step |
+
+## How to run
+
+From the project root (`UWM_Power`):
+
+```bash
+# Run all steps
+python battery_design/run_all.py
+
+# Or run individually
+python battery_design/step1_peak_shaving.py
+python battery_design/step2_resiliency.py
+python battery_design/step3_solar_excess.py
+python battery_design/step4_combined_sizing.py
+```
+
+## Data dependencies
+
+- `UWM_Power.csv` — Building-level 15-min load (project root)
+- `results/load_profile_tem.csv` — Campus hourly load (from `process.py`)
+- `simulation_17530461_hourly_data 2.csv` — Helioscope PV simulation (project root)
+
+## Output
+
+- `outputs/step1_peak_shaving_results.csv`
+- `outputs/step2_resiliency_results.csv`
+- `outputs/step3_solar_excess_results.csv`
+- `outputs/step4_combined_results.csv` — **Recommended battery size**
