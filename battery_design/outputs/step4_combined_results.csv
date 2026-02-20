@@ -1,2 +1,2 @@
-p_battery_kw,e_battery_kwh,p_recommended_kw,e_recommended_kwh,peak_shaving_p_kw,peak_shaving_e_kwh,resiliency_p_kw,resiliency_e_kwh,solar_excess_p_kw,solar_excess_e_kwh
-512.05,3230.4754631754104,500,3200,265.364375,796.093125,17.082499999999996,368.3045188356164,512.05,3230.4754631754104
+p_battery_kw,e_battery_kwh,p_recommended_kw,e_recommended_kwh,peak_grid_achieved_kw,source
+300,1000,300,1000,639.9495632804307,temporal_15min_simulation

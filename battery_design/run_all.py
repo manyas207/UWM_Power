@@ -1,5 +1,6 @@
 """
-Run full battery design analysis (Steps 1–4).
+Run full battery design analysis.
+Uses temporal simulation (load+PV aligned) for sizing; step2 for resiliency.
 """
 
 import subprocess
@@ -10,10 +11,8 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 os.chdir(SCRIPT_DIR)
 
 steps = [
-    "step1_peak_shaving.py",
-    "step2_resiliency.py",
-    "step3_solar_excess.py",
-    "step4_combined_sizing.py",
+    "step2_resiliency.py",      # Resiliency load (critical buildings)
+    "temporal_simulation.py",   # Load+PV temporal analysis → sizing (writes step1,3,4 outputs)
 ]
 
 for step in steps:
