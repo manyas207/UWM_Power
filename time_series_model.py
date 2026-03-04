@@ -3,11 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-# Save PNGs in a dedicated time_series plots folder
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PLOTS_DIR = os.path.join(SCRIPT_DIR, "plots", "time_series")
-os.makedirs(PLOTS_DIR, exist_ok=True)
-print("Saving time-series plots to:", PLOTS_DIR)
+print("Current working directory:", os.getcwd())
 
 df = pd.read_csv("load_profile_tem.csv")
 
@@ -17,9 +13,8 @@ plt.xlabel("Hour of Year")
 plt.ylabel("Load (kW)")
 plt.title("Hourly Energy Demand Over the Year")
 plt.tight_layout()
-plt.savefig(os.path.join(PLOTS_DIR, "hourly_demand_timeseries.png"), dpi=300)
-print("Plot saved: hourly_demand_timeseries.png")
-plt.show()
+plt.savefig("hourly_demand_timeseries.png", dpi=300)
+print("Plot saved successfully.")
 plt.close()
 
 
@@ -38,9 +33,8 @@ plt.ylabel("Load (kW)")
 plt.title("Smoothed Energy Demand Trend")
 plt.legend()
 plt.tight_layout()
-plt.savefig(os.path.join(PLOTS_DIR, "hourly_demand_smoothed.png"), dpi=300)
-print("Plot saved: hourly_demand_smoothed.png")
-plt.show()
+plt.savefig("hourly_demand_smoothed.png", dpi=300)
+print("Plot saved successfully.")
 plt.close()
 
 
@@ -59,9 +53,8 @@ plt.title("Typical Daily Load Profile")
 plt.xticks(range(0, 24))
 plt.grid(True)
 plt.tight_layout()
-plt.savefig(os.path.join(PLOTS_DIR, "typical_daily_profile.png"), dpi=300)
-print("Plot saved: typical_daily_profile.png")
-plt.show()
+plt.savefig("typical_daily_profile.png", dpi=300)
+print("Plot saved successfully.")
 plt.close()
 
 
@@ -81,9 +74,8 @@ plt.title("Monthly Average Energy Demand")
 plt.xticks(range(1, 13))
 plt.grid(True)
 plt.tight_layout()
-plt.savefig(os.path.join(PLOTS_DIR, "monthly_average_load.png"), dpi=300)
-print("Plot saved: monthly_average_load.png")
-plt.show()
+plt.savefig("monthly_average_load.png", dpi=300)
+print("Plot saved successfully.")
 plt.close()
 
 
@@ -116,7 +108,6 @@ plt.ylabel("Load (kW)")
 plt.title("Analytical Energy Demand Model")
 plt.legend()
 plt.tight_layout()
-plt.savefig(os.path.join(PLOTS_DIR, "sinusoidal_load_model.png"), dpi=300)
-print("Plot saved: sinusoidal_load_model.png")
-plt.show()
+plt.savefig("sinusoidal_load_model.png", dpi=300)
+print("Plot saved successfully.")
 plt.close()
