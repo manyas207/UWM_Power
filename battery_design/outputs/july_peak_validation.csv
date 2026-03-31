@@ -1,0 +1,3 @@
+config,P_kW,E_kWh,july_peak_no_batt_kW,threshold_kW,peak_july_with_batt_kW,peak_year_with_batt_kW,pass_required_july,pass_optional_no_month_exceeds,months_any_interval_exceeds_threshold
+REopt_battery1,329.0,2025.0,726.637483223827,544.9781124178702,544.9781124178702,544.9781124178702,True,True,
+REopt_unlimited,531.0,3968.0,726.637483223827,544.9781124178702,544.9781124178702,544.9781124178702,True,True,
