@@ -14,7 +14,7 @@ PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
 OUTPUTS_DIR = os.path.join(SCRIPT_DIR, "outputs")
 os.makedirs(OUTPUTS_DIR, exist_ok=True)
 
-LOAD_CSV = os.path.join(PROJECT_ROOT, "UWM_Power.csv")
+LOAD_CSV = os.path.join(PROJECT_ROOT, "data", "raw", "UWM_Power.csv")
 
 # Critical buildings from challenge (substrings to match column names in UWM_Power.csv)
 RESILIENCY_BUILDINGS = [

@@ -2,15 +2,16 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from pathlib import Path
 
 # Set working directory to script location and define output folders
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-RESULTS_DIR = os.path.join(SCRIPT_DIR, "results")
-BATTERY_PLOTS_DIR = os.path.join(SCRIPT_DIR, "plots", "battery")
-os.makedirs(RESULTS_DIR, exist_ok=True)
-os.makedirs(BATTERY_PLOTS_DIR, exist_ok=True)
-os.chdir(SCRIPT_DIR)
-print("Working directory:", SCRIPT_DIR)
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SCRIPT_DIR.parent
+RESULTS_DIR = PROJECT_ROOT / "results"
+BATTERY_PLOTS_DIR = PROJECT_ROOT / "plots" / "battery"
+PV_SIMULATION_CSV = PROJECT_ROOT / "data" / "raw" / "simulation_17530461_hourly_data 2.csv"
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+BATTERY_PLOTS_DIR.mkdir(parents=True, exist_ok=True)
 
 # ============================================================================
 # 1. LOAD DATA
@@ -21,12 +22,12 @@ print("Loading data...")
 print("="*60)
 
 # Load hourly load profile
-load_df = pd.read_csv(os.path.join(RESULTS_DIR, "load_profile_tem.csv"))
+load_df = pd.read_csv(RESULTS_DIR / "load_profile_tem.csv")
 print(f"Load data: {len(load_df)} hours")
 print(f"Load range: {load_df['Load (kW)'].min():.1f} - {load_df['Load (kW)'].max():.1f} kW")
 
 # Load solar PV simulation data
-pv_df = pd.read_csv("simulation_17530461_hourly_data 2.csv")
+pv_df = pd.read_csv(PV_SIMULATION_CSV)
 print(f"PV data: {len(pv_df)} hours")
 
 # Check which PV power column to use

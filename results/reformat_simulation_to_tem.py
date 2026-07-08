@@ -63,7 +63,9 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--input",
-        default=os.path.join(Path(__file__).resolve().parents[1], "simulation_17530461_hourly_data 2.csv"),
+        default=os.path.join(
+            Path(__file__).resolve().parents[1], "data", "raw", "simulation_17530461_hourly_data 2.csv"
+        ),
         help="Path to Helioscope simulation CSV.",
     )
     parser.add_argument(

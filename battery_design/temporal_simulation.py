@@ -26,9 +26,9 @@ OUTPUTS_DIR = os.path.join(SCRIPT_DIR, "outputs")
 os.makedirs(OUTPUTS_DIR, exist_ok=True)
 
 # Paths
-LOAD_CSV = os.path.join(PROJECT_ROOT, "UWM_Power.csv")
+LOAD_CSV = os.path.join(PROJECT_ROOT, "data", "raw", "UWM_Power.csv")
 HOURLY_LOAD = os.path.join(PROJECT_ROOT, "results", "load_profile_tem.csv")
-PV_SIMULATION = os.path.join(PROJECT_ROOT, "simulation_17530461_hourly_data 2.csv")
+PV_SIMULATION = os.path.join(PROJECT_ROOT, "data", "raw", "simulation_17530461_hourly_data 2.csv")
 
 # Bakke and Vet
 BAKKE = {"install_kw": 587.05, "grid_limit_kva": 400}

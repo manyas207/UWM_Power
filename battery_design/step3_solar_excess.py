@@ -21,7 +21,7 @@ VET = {"install_kw": 525, "grid_limit_kva": 200, "excess_max_kw": 325}
 
 # Helioscope simulation file(s) - use project simulation as proxy for PV profile
 # If you have separate Bakke and Vet simulations, point to them here
-PV_SIMULATION = os.path.join(PROJECT_ROOT, "simulation_17530461_hourly_data 2.csv")
+PV_SIMULATION = os.path.join(PROJECT_ROOT, "data", "raw", "simulation_17530461_hourly_data 2.csv")
 
 def load_pv_profile(path):
     """Load PV AC power from Helioscope simulation."""

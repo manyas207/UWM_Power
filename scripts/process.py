@@ -1,7 +1,10 @@
+from pathlib import Path
+
 import pandas as pd
 
-INPUT_CSV = "UWM_Power.csv"
-OUTPUT_CSV = "load_profile_tem.csv"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+INPUT_CSV = PROJECT_ROOT / "data" / "raw" / "UWM_Power.csv"
+OUTPUT_CSV = PROJECT_ROOT / "results" / "load_profile_tem.csv"
 
 # Read CSV
 df = pd.read_csv(INPUT_CSV)
@@ -37,6 +40,7 @@ hourly = (
 hourly.columns = ["Hour", "Load (kW)"]
 
 # Save
+OUTPUT_CSV.parent.mkdir(parents=True, exist_ok=True)
 hourly.to_csv(OUTPUT_CSV, index=False)
 
 print("Saved:", OUTPUT_CSV)

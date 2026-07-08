@@ -15,7 +15,7 @@ def _parse_kw_strings_to_float(df: pd.DataFrame, cols: list[str]) -> pd.DataFram
 
 def main() -> int:
     project_root = Path(__file__).resolve().parents[1]
-    load_csv = project_root / "UWM_Power.csv"
+    load_csv = project_root / "data" / "raw" / "UWM_Power.csv"
     out_png = project_root / "plots" / "july_avg_daily_demand_hourly.png"
 
     df = pd.read_csv(load_csv)

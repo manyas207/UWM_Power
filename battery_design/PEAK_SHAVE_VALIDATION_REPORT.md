@@ -11,7 +11,7 @@ This work checks whether **candidate battery systems** meet the UW–Madison goa
 
 **How it was done**
 
-A script [`validate_july_peak_shave.py`](validate_july_peak_shave.py) loads [`UWM_Power.csv`](../UWM_Power.csv), aligns Bakke/Vet PV from [`simulation_17530461_hourly_data 2.csv`](../simulation_17530461_hourly_data%202.csv), computes the July baseline and threshold, then runs [`simulate_battery`](temporal_simulation.py) from [`temporal_simulation.py`](temporal_simulation.py) for a **full year** so state-of-charge before and after July is realistic. Outputs are written to [`outputs/july_peak_validation.csv`](outputs/july_peak_validation.csv).
+A script [`validate_july_peak_shave.py`](validate_july_peak_shave.py) loads [`data/raw/UWM_Power.csv`](../data/raw/UWM_Power.csv), aligns Bakke/Vet PV from [`data/raw/simulation_17530461_hourly_data 2.csv`](../data/raw/simulation_17530461_hourly_data%202.csv), computes the July baseline and threshold, then runs [`simulate_battery`](temporal_simulation.py) from [`temporal_simulation.py`](temporal_simulation.py) for a **full year** so state-of-charge before and after July is realistic. Outputs are written to [`outputs/july_peak_validation.csv`](outputs/july_peak_validation.csv).
 
 **Headline outcome (latest run, see Results below)**
 
@@ -69,8 +69,8 @@ Grid import without battery uses the same definition as the rest of `battery_des
 ### New / primary artifact
 
 - **[`validate_july_peak_shave.py`](validate_july_peak_shave.py)** — End-to-end check that:
-  1. Loads [`UWM_Power.csv`](../UWM_Power.csv) at **15-minute** resolution (all building columns summed to campus kW).
-  2. Loads and aligns PV from [`simulation_17530461_hourly_data 2.csv`](../simulation_17530461_hourly_data%202.csv), scaled to Bakke and Vet sizes, with **per-site grid limits** (400 kVA Bakke, 200 kVA Vet).
+  1. Loads [`data/raw/UWM_Power.csv`](../data/raw/UWM_Power.csv) at **15-minute** resolution (all building columns summed to campus kW).
+  2. Loads and aligns PV from [`data/raw/simulation_17530461_hourly_data 2.csv`](../data/raw/simulation_17530461_hourly_data%202.csv), scaled to Bakke and Vet sizes, with **per-site grid limits** (400 kVA Bakke, 200 kVA Vet).
   3. Computes **July** baseline peak: `max(load - pv_within_limit)` over July only.
   4. Sets `threshold_kw = 0.75 * july_peak_no_batt`.
   5. Runs **[`simulate_battery`](temporal_simulation.py)** from [`temporal_simulation.py`](temporal_simulation.py) with `grid_import_cap_kw = threshold_kw` for a **full year** (preserves SOC dynamics before/after July).
@@ -91,7 +91,7 @@ Grid import without battery uses the same definition as the rest of `battery_des
 
 ### 3.1 Data preparation (`validate_july_peak_shave.py`)
 
-1. **Load** — Reads `UWM_Power.csv`, strips `" kW"` from numeric columns, sums all building columns into a single **campus load** array (kW at each 15-minute step).
+1. **Load** — Reads `data/raw/UWM_Power.csv`, strips `" kW"` from numeric columns, sums all building columns into a single **campus load** array (kW at each 15-minute step).
 
 2. **Time** — Parses the `Time` column (`%m/%d/%y %H:%M`) to build a boolean mask **`july`** for calendar July.
 
@@ -146,7 +146,7 @@ From the project root:
 cd battery_design && python validate_july_peak_shave.py
 ```
 
-Ensure `UWM_Power.csv`, the PV simulation CSV, and `outputs/step2_resiliency_results.csv` exist as expected by [`temporal_simulation.py`](temporal_simulation.py). Re-running updates [`outputs/july_peak_validation.csv`](outputs/july_peak_validation.csv); refresh the **Results** section if numbers change.
+Ensure `data/raw/UWM_Power.csv`, `data/raw/simulation_17530461_hourly_data 2.csv`, and `outputs/step2_resiliency_results.csv` exist as expected by [`temporal_simulation.py`](temporal_simulation.py). Re-running updates [`outputs/july_peak_validation.csv`](outputs/july_peak_validation.csv); refresh the **Results** section if numbers change.
 
 ---
 

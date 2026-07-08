@@ -1,11 +1,14 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-import os
+from pathlib import Path
 
-print("Current working directory:", os.getcwd())
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+INPUT_CSV = PROJECT_ROOT / "results" / "load_profile_tem.csv"
+OUTPUT_DIR = PROJECT_ROOT / "plots"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-df = pd.read_csv("load_profile_tem.csv")
+df = pd.read_csv(INPUT_CSV)
 
 plt.figure(figsize=(12, 4))
 plt.plot(df["Hour"], df["Load (kW)"])
@@ -13,14 +16,14 @@ plt.xlabel("Hour of Year")
 plt.ylabel("Load (kW)")
 plt.title("Hourly Energy Demand Over the Year")
 plt.tight_layout()
-plt.savefig("hourly_demand_timeseries.png", dpi=300)
+plt.savefig(OUTPUT_DIR / "hourly_demand_timeseries.png", dpi=300)
 print("Plot saved successfully.")
 plt.close()
 
 
 
 
-df = pd.read_csv("load_profile_tem.csv")
+df = pd.read_csv(INPUT_CSV)
 
 # 1-week moving average
 df["Smoothed_Load"] = df["Load (kW)"].rolling(window=24*7, center=True).mean()
@@ -33,13 +36,13 @@ plt.ylabel("Load (kW)")
 plt.title("Smoothed Energy Demand Trend")
 plt.legend()
 plt.tight_layout()
-plt.savefig("hourly_demand_smoothed.png", dpi=300)
+plt.savefig(OUTPUT_DIR / "hourly_demand_smoothed.png", dpi=300)
 print("Plot saved successfully.")
 plt.close()
 
 
 
-df = pd.read_csv("load_profile_tem.csv")
+df = pd.read_csv(INPUT_CSV)
 
 df["Hour_of_Day"] = (df["Hour"] - 1) % 24
 
@@ -53,13 +56,13 @@ plt.title("Typical Daily Load Profile")
 plt.xticks(range(0, 24))
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("typical_daily_profile.png", dpi=300)
+plt.savefig(OUTPUT_DIR / "typical_daily_profile.png", dpi=300)
 print("Plot saved successfully.")
 plt.close()
 
 
 
-df = pd.read_csv("load_profile_tem.csv")
+df = pd.read_csv(INPUT_CSV)
 
 # Approximate month index
 df["Month"] = ((df["Hour"] - 1) // (24 * 30)) + 1
@@ -74,7 +77,7 @@ plt.title("Monthly Average Energy Demand")
 plt.xticks(range(1, 13))
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("monthly_average_load.png", dpi=300)
+plt.savefig(OUTPUT_DIR / "monthly_average_load.png", dpi=300)
 print("Plot saved successfully.")
 plt.close()
 
@@ -83,7 +86,7 @@ plt.close()
 
 
 
-df = pd.read_csv("load_profile_tem.csv")
+df = pd.read_csv(INPUT_CSV)
 
 t = df["Hour"].values
 y = df["Load (kW)"].values
@@ -108,6 +111,6 @@ plt.ylabel("Load (kW)")
 plt.title("Analytical Energy Demand Model")
 plt.legend()
 plt.tight_layout()
-plt.savefig("sinusoidal_load_model.png", dpi=300)
+plt.savefig(OUTPUT_DIR / "sinusoidal_load_model.png", dpi=300)
 print("Plot saved successfully.")
 plt.close()
